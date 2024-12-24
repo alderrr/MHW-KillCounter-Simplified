@@ -1,0 +1,18 @@
+1. Put MHW-KillCounter-Simplified folder anywhere you want
+2. Open OBS
+3. Add Source -> Browser -> Create New -> Give any name
+4. Checklist the Local file checkbox
+5. Click Browse at Local file
+6. Select index.html inside MHW-KillCounter-Simplified/public/index.html
+7. Set your preferred Width and Height (or use W:500;H:120 if you're not sure)
+8. Click OK
+9. Right Click on the created browser source
+10. Click Interact
+11. Test the function inside the interact box
+	Left arrow: previous monster
+	Right arrow: next monster
+	Up arrow: increase counter
+	Down arrow: decrease counter
+	[R]: reset counter
+
+Note: Default monster cannot be changed manually, it totals from other monsters

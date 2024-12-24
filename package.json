@@ -1,12 +1,12 @@
 {
   "name": "mhw-killcounter-simplified",
   "version": "1.0.0",
-  "description": "",
+  "description": "This web app is a simple counter for tracking the number of times different monsters in Monster Hunter have been hunted. It features a visual display of each monster's name, a counter showing the number of hunts, and an image representing the monster.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "AlderDer",
+  "author": "Alder",
   "license": "ISC"
 }

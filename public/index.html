@@ -32,11 +32,26 @@
         font-weight: bold;
         margin-bottom: 8px;
         color: #f5f5f5;
+        opacity: 1; /* Ensure the name starts visible */
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      /* Hidden state for smooth transition */
+      .monster-name.hidden {
+        opacity: 0;
+        transform: translateY(-10px); /* Slight upward motion */
       }
       .counter {
         font-size: 48px;
         color: #f39c12;
         font-weight: bold;
+        opacity: 1; /* Default state */
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      /* Hidden state for transition */
+      .counter.hidden {
+        opacity: 0;
+        transform: translateY(10px); /* Slight downward motion */
       }
     </style>
   </head>
@@ -188,8 +203,31 @@
       // Change the displayed monster and its icon
       function changeMonster() {
         const monster = monsters[currentMonsterIndex];
-        monsterNameElement.textContent = `${monster.name} Hunted`;
+
+        // Temporarily hide the name and counter for the transition
+        monsterNameElement.classList.add("hidden");
+        counterElement.classList.add("hidden");
+
+        // Wait for the transition to complete before updating the content
+        setTimeout(() => {
+          // Update the name and counter
+          monsterNameElement.textContent = `${monster.name} Hunted`;
+          counterElement.textContent =
+            currentMonsterIndex === 0
+              ? monstersHunted
+                  .slice(1)
+                  .reduce((total, count) => total + count, 0) // Total for the first monster
+              : monstersHunted[currentMonsterIndex];
+
+          // Show the updated elements
+          monsterNameElement.classList.remove("hidden");
+          counterElement.classList.remove("hidden");
+        }, 300); // Match the transition duration in the CSS
+
+        // Update the monster icon
         monsterIconElement.style.backgroundImage = `url(${monster.image})`;
+
+        // Update the counter
         updateCounter();
       }
 
