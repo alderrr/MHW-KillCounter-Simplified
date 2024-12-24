@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monster Hunter Counter</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <style>
+      /* Tailwind custom styles to enhance the look */
+      body {
+        background-color: #1e1e1e;
+        font-family: "Arial", sans-serif;
+      }
+      .widget {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        transition: transform 0.3s ease;
+      }
+      .monster-icon {
+        width: 120px;
+        height: 120px;
+        margin-right: 24px;
+        border-radius: 12px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: background-image 0.3s ease;
+      }
+      .monster-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #f5f5f5;
+      }
+      .counter {
+        font-size: 48px;
+        color: #f39c12;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body class="flex justify-center items-center h-screen bg-gray-900">
+    <div class="widget">
+      <div class="monster-icon" id="monster-icon"></div>
+      <div class="details">
+        <div class="monster-name" id="monster-name">Monsters Hunted</div>
+        <div class="counter" id="counter">0</div>
+      </div>
+    </div>
+
+    <script>
+      const monsters = [
+        { name: "Monsters", image: "images/MHW-Unknown_Monster_Icon.png" },
+        {
+          name: "Acidic Glavenus",
+          image: "images/MHWI-Acidic_Glavenus_Icon.png",
+        },
+        { name: "Alatreon", image: "images/MHWI-Alatreon_Icon.png" },
+        { name: "Ancient Leshen", image: "images/MHW-Ancient_Leshen_Icon.png" },
+        { name: "Anjanath", image: "images/MHW-Anjanath_Icon.png" },
+        { name: "Azure Rathalos", image: "images/MHW-Azure_Rathalos_Icon.png" },
+        { name: "Banbaro", image: "images/MHWI-Banbaro_Icon.png" },
+        { name: "Barioth", image: "images/MHWI-Barioth_Icon.png" },
+        { name: "Barroth", image: "images/MHW-Barroth_Icon.png" },
+        { name: "Bazelgeuse", image: "images/MHW-Bazelgeuse_Icon.png" },
+        { name: "Behemoth", image: "images/MHW-Behemoth_Icon.png" },
+        { name: "Beotodus", image: "images/MHWI-Beotodus_Icon.png" },
+        { name: "Black Diablos", image: "images/MHW-Black_Diablos_Icon.png" },
+        {
+          name: "Blackveil Vaal Hazak",
+          image: "images/MHWI-Blackveil_Vaal_Hazak_Icon.png",
+        },
+        { name: "Brachydios", image: "images/MHWI-Brachydios_Icon.png" },
+        { name: "Brute Tigrex", image: "images/MHWI-Brute_Tigrex_Icon.png" },
+        {
+          name: "Coral Pukei-Pukei",
+          image: "images/MHWI-Coral_Pukei-Pukei_Icon.png",
+        },
+        { name: "Deviljho", image: "images/MHW-Deviljho_Icon.png" },
+        { name: "Diablos", image: "images/MHW-Diablos_Icon.png" },
+        { name: "Dodogama", image: "images/MHW-Dodogama_Icon.png" },
+        {
+          name: "Ebony Odogaron",
+          image: "images/MHWI-Ebony_Odogaron_Icon.png",
+        },
+        { name: "Fatalis", image: "images/MHWI-Fatalis_Icon.png" },
+        {
+          name: "Frostfang Barioth",
+          image: "images/MHWI-Frostfang_Barioth_Icon.png",
+        },
+        {
+          name: "Fulgur Anjanath",
+          image: "images/MHWI-Fulgur_Anjanath_Icon.png",
+        },
+        {
+          name: "Furious Rajang",
+          image: "images/MHWI-Furious_Rajang_Icon.png",
+        },
+        { name: "Glavenus", image: "images/MHWI-Glavenus_Icon.png" },
+        { name: "Gold Rathian", image: "images/MHWI-Gold_Rathian_Icon.png" },
+        { name: "Great Girros", image: "images/MHW-Great_Girros_Icon.png" },
+        { name: "Great Jagras", image: "images/MHW-Great_Jagras_Icon.png" },
+        { name: "Jyuratodus", image: "images/MHW-Jyuratodus_Icon.png" },
+        { name: "Kirin", image: "images/MHW-Kirin_Icon.png" },
+        { name: "Kulu-Ya-Ku", image: "images/MHW-Kulu-Ya-Ku_Icon.png" },
+        { name: "Kulve Taroth", image: "images/MHW-Kulve_Taroth_Icon.png" },
+        { name: "Kushala Daora", image: "images/MHW-Kushala_Daora_Icon.png" },
+        { name: "Lavasioth", image: "images/MHW-Lavasioth_Icon.png" },
+        { name: "Legiana", image: "images/MHW-Legiana_Icon.png" },
+        { name: "Leshen", image: "images/MHW-Leshen_Icon.png" },
+        { name: "Lunastra", image: "images/MHW-Lunastra_Icon.png" },
+        { name: "Namielle", image: "images/MHWI-Namielle_Icon.png" },
+        { name: "Nargacuga", image: "images/MHWI-Nargacuga_Icon.png" },
+        { name: "Nergigante", image: "images/MHW-Nergigante_Icon.png" },
+        {
+          name: "Nightshade Paolumu",
+          image: "images/MHWI-Nightshade_Paolumu_Icon.png",
+        },
+        { name: "Odogaron", image: "images/MHW-Odogaron_Icon.png" },
+        { name: "Paolumu", image: "images/MHW-Paolumu_Icon.png" },
+        { name: "Pink Rathian", image: "images/MHW-Pink_Rathian_Icon.png" },
+        { name: "Pukei-Pukei", image: "images/MHW-Pukei-Pukei_Icon.png" },
+        { name: "Radobaan", image: "images/MHW-Radobaan_Icon.png" },
+        {
+          name: "Raging Brachydios",
+          image: "images/MHWI-Raging_Brachydios_Icon.png",
+        },
+        { name: "Rajang", image: "images/MHWI-Rajang_Icon.png" },
+        { name: "Rathalos", image: "images/MHW-Rathalos_Icon.png" },
+        { name: "Rathian", image: "images/MHW-Rathian_Icon.png" },
+        {
+          name: "Ruiner Nergigante",
+          image: "images/MHWI-Ruiner_Nergigante_Icon.png",
+        },
+        { name: "Safi'jiiva", image: "images/MHWI-Safi_jiiva_Icon.png" },
+        {
+          name: "Savage Deviljho",
+          image: "images/MHWI-Savage_Deviljho_Icon.png",
+        },
+        {
+          name: "Scarred Yian Garuga",
+          image: "images/MHWI-Scarred_Yian_Garuga_Icon.png",
+        },
+        {
+          name: "Seething Bazelgeuse",
+          image: "images/MHWI-Seething_Bazelgeuse_Icon.png",
+        },
+        {
+          name: "Shara Ishvalda",
+          image: "images/MHWI-Shara_Ishvalda_Icon.png",
+        },
+        {
+          name: "Shrieking Legiana",
+          image: "images/MHWI-Shrieking_Legiana_Icon.png",
+        },
+        {
+          name: "Silver Rathalos",
+          image: "images/MHWI-Silver_Rathalos_Icon.png",
+        },
+        {
+          name: "Stygian Zinogre",
+          image: "images/MHWI-Stygian_Zinogre_Icon.png",
+        },
+        { name: "Teostra", image: "images/MHW-Teostra_Icon.png" },
+        { name: "Tigrex", image: "images/MHWI-Tigrex_Icon.png" },
+        { name: "Tobi-Kadachi", image: "images/MHW-Tobi-Kadachi_Icon.png" },
+        { name: "Tzitzi-Ya-Ku", image: "images/MHW-Tzitzi-Ya-Ku_Icon.png" },
+        { name: "Uragaan", image: "images/MHW-Uragaan_Icon.png" },
+        { name: "Vaal Hazak", image: "images/MHW-Vaal_Hazak_Icon.png" },
+        { name: "Velkhana", image: "images/MHWI-Velkhana_Icon.png" },
+        { name: "Zinogre", image: "images/MHWI-Zinogre_Icon.png" },
+      ];
+
+      let currentMonsterIndex = 0;
+      const monstersHunted = []; // Array to store the hunted count for each monster
+      const monsterNameElement = document.getElementById("monster-name");
+      const monsterIconElement = document.getElementById("monster-icon");
+      const counterElement = document.getElementById("counter");
+
+      // Initialize the hunted count for each monster
+      function initializeCounters() {
+        for (let i = 0; i < monsters.length; i++) {
+          monstersHunted[i] = 0;
+        }
+      }
+
+      // Change the displayed monster and its icon
+      function changeMonster() {
+        const monster = monsters[currentMonsterIndex];
+        monsterNameElement.textContent = `${monster.name} Hunted`;
+        monsterIconElement.style.backgroundImage = `url(${monster.image})`;
+        updateCounter();
+      }
+
+      // Update the counter of the currently displayed monster
+      function updateCounter() {
+        if (currentMonsterIndex === 0) {
+          // Calculate the total of all other monsters
+          const total = monstersHunted
+            .slice(1)
+            .reduce((sum, count) => sum + count, 0);
+          counterElement.textContent = total;
+        } else {
+          // Update the counter for the current monster
+          counterElement.textContent = monstersHunted[currentMonsterIndex];
+        }
+      }
+
+      // Add event listeners for key presses
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          // Left arrow to change to the previous monster
+          currentMonsterIndex =
+            (currentMonsterIndex - 1 + monsters.length) % monsters.length;
+          changeMonster();
+        } else if (event.key === "ArrowRight") {
+          // Right arrow to change to the next monster
+          currentMonsterIndex = (currentMonsterIndex + 1) % monsters.length;
+          changeMonster();
+        } else if (event.key === "ArrowUp" && currentMonsterIndex !== 0) {
+          // Up arrow to increase the number of monsters hunted for the current monster (not the first monster)
+          monstersHunted[currentMonsterIndex]++;
+          updateCounter();
+        } else if (event.key === "ArrowDown" && currentMonsterIndex !== 0) {
+          // Down arrow to decrease the number of monsters hunted, not going below 0 (not the first monster)
+          if (monstersHunted[currentMonsterIndex] > 0) {
+            monstersHunted[currentMonsterIndex]--;
+            updateCounter();
+          }
+        } else if (
+          event.key.toLowerCase() === "r" &&
+          currentMonsterIndex !== 0
+        ) {
+          // 'R' key to reset the counter for the current monster (not the first monster)
+          monstersHunted[currentMonsterIndex] = 0;
+          updateCounter();
+        }
+      });
+
+      // Initialize the app
+      initializeCounters();
+      changeMonster();
+    </script>
+  </body>
+</html>
