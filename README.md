@@ -2,6 +2,8 @@
 
 This web app is a simple counter for tracking the number of times different monsters in Monster Hunter have been hunted. It features a visual display of each monster's name, a counter showing the number of hunts, and an image representing the monster.
 
+This web app is primarily designed and optimized for use with [OBS (Open Broadcaster Software)](https://obsproject.com/). It provides a lightweight and easy-to-use interface, ideal for streamers and content creators who need a quick and simple tool to interact with their audience or display key information during broadcasts.
+
 ## Features
 
 - Displays the name of the monster and its hunt count.
